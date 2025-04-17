@@ -49,10 +49,17 @@ namespace ProyectoFinal.Controllers
         public IActionResult Login(Login request)
         {
             var user = context.Login(request.Username, request.Password);
-          
+
             if (user != null)
             {
-                return Ok("Login exitoso");
+                if (user.Rol_usuario == "Administrador") 
+                {
+                    return Ok("Login exitoso");
+                }
+                else
+                {
+                    return Unauthorized("Acceso denegado. Solo los administradores pueden ingresar.");
+                }
             }
             else
             {
